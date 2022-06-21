@@ -61,15 +61,15 @@ router.post('/append_raffle', async (req, res) => {
         } else {
             console.log("updating")
             // console.log(fetchedRaffleLatestTransaction)
+            console.log(fetchedRaffleLatestTransaction.metadata)
+            fetchedRaffleLatestTransaction.metadata.count = fetchedRaffleLatestTransaction.metadata.count + props?.count
             assetAppend = await updateSingleAsset({
                 txCreatedID: fetchedRaffleLatestTransaction?.id,
-                metadata: {
-                    "count": 5
-                },
+                metadata: fetchedRaffleLatestTransaction.metadata,
                 publicKey: user_wallet.publicKey,
                 privateKey: user_wallet.privateKey,
             })
-            console.log(assetAppend)
+            // console.log(assetAppend)
         }
 
         if (JSON.stringify(assetAppend) != JSON.stringify({})) {
