@@ -21,21 +21,21 @@ router.post('/append_raffle', async (req, res) => {
         const assetsModel = await Assets()
         const transactionsModel = await Transactions()
 
-        if (!props?.player_asset_id || !props?.count)
+        if (!props?.did || !props?.count)
             return res.status(400).json("Unauthorized")
 
         var isCanAppend = true
 
-        var fetchedLatestTransaction = await fetchLatestTransaction(props?.player_asset_id)
+        var fetchedLatestTransaction = await fetchLatestTransaction(props?.did)
 
         if (!fetchedLatestTransaction) {
             isCanAppend = false
             return res.status(400).json("Transaction does not exist")
         }
 
-        // find the player_asset_id
+        // find the did
         var fetchedAsset = await assetsModel.findOne({
-            "data.player_asset_id": props?.player_asset_id,
+            "data.did": props?.did,
         })
         console.log(fetchedAsset?.id)
         var fetchedRaffleLatestTransaction = await fetchLatestTransaction(fetchedAsset?.id)
@@ -50,7 +50,7 @@ router.post('/append_raffle', async (req, res) => {
             assetAppend = await createRaffle({
                 asset: {
                     type: "raffle",
-                    player_asset_id: props?.player_asset_id
+                    did: props?.did
                 },
                 metadata: {
                     count: props?.count,
