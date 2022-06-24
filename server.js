@@ -1,11 +1,10 @@
-const http = require('http');
-const useMongodb = require("./modules/useMongodb")
+const http = require('http')
 
 const express = require("express");
 const app = express()
 const bodyParser = require("body-parser");
+const { connectDB } = require('./database/mongodb.database');
 
-const { connectDB } = useMongodb()
 connectDB()
 
 app.use(bodyParser.urlencoded({ extended: false }));

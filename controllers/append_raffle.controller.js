@@ -1,18 +1,9 @@
 var router = require('express').Router()
-const useLocalStorage = require('../modules/useLocalStorage')
-const usePlayer = require('../modules/usePlayer')
-const useCollection = require('../modules/useCollection')
-const useRaffle = require('../modules/useRaffle')
-const useBigchaindb = require('../modules/useBigchaindb')
 const user_wallet = require('../utils/user_wallet.json')
-const useMongodb = require('../modules/useMongodb')
+const { fetchLatestTransaction, updateSingleAsset } = require('../database/bigchaindb.database')
+const { Assets, Transactions } = require('../database/mongodb.database')
+const { createRaffle } = require('../modules/raffle.module')
 
-const { removeItem } = useLocalStorage()
-const { getCollection, createCollection } = useCollection()
-const { Assets, Transactions } = useMongodb()
-const { getRaffles, createRaffle } = useRaffle()
-const { player_login, player_logout, player_register, getPlayer } = usePlayer()
-const { fetchLatestTransaction, updateSingleAsset } = useBigchaindb()
 // api/products
 router.post('/append_raffle', async (req, res) => {
     try {
